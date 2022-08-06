@@ -7,9 +7,11 @@ import { Repository } from 'typeorm';
 import { CreateMovieDto } from './dto/create-movie';
 import { MovieEntity } from './movie.entity';
 import { AxiosResponse } from 'axios';
-import { EnumMessageCode, MESSAGE_CODE } from '~/constants/message-code';
+import { MESSAGE_CODE } from '~/constants';
 import { UserDto } from '../user/dto/user.dto';
 import { UserService } from '../user/user.service';
+import { EnumMessageCode } from '~/enums';
+import { ActionMovieDto } from './dto/action-movie';
 
 @Injectable()
 export class MovieService {
@@ -77,6 +79,24 @@ export class MovieService {
     const user: UserEntity = await this.userService.findByEmail(userDto.email);
     movie.createdBy = user;
     return this.movieService.save(movie);
+  }
+
+  async action(actionMovieDto: ActionMovieDto, userDto: UserDto): Promise<any> {
+    const movie: MovieEntity = await this.movieService.findOne({
+      where: {
+        id: actionMovieDto.id,
+      },
+    });
+    if (!movie) {
+      throw new HttpException(
+        {
+          code: EnumMessageCode.M005,
+          message: MESSAGE_CODE.M005,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
+    return null;
   }
 
   async findAll(): Promise<MovieEntity[]> {

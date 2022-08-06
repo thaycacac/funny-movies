@@ -1,4 +1,4 @@
-import { EnumMessageCode, MESSAGE_CODE } from './../../constants/message-code';
+import { MESSAGE_CODE } from '../../constants';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
@@ -6,6 +6,7 @@ import { LoginDto } from './dto/login';
 import { UserEntity } from '../user/user.entity';
 import * as bcrypt from 'bcrypt';
 import { UserDto } from '../user/dto/user.dto';
+import { EnumMessageCode } from '~/enums';
 
 @Injectable()
 export class AuthService {

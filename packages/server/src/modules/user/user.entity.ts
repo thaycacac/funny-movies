@@ -5,6 +5,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { pick } from 'lodash';
 
@@ -31,6 +32,15 @@ export class UserEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => MovieEntity, (movie: MovieEntity) => movie.id)
+  created: MovieEntity[];
+
+  @OneToMany(() => MovieEntity, (movie: MovieEntity) => movie.id)
+  likes: MovieEntity[];
+
+  @OneToMany(() => MovieEntity, (movie: MovieEntity) => movie.id)
+  dislikes: MovieEntity[];
 
   safeResponse() {
     return pick(this, ['email']);

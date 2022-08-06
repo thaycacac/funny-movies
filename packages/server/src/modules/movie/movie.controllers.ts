@@ -7,6 +7,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { AuthGuard } from '~/guards/auth.guard';
+import { ActionMovieDto } from './dto/action-movie';
 import { CreateMovieDto } from './dto/create-movie';
 import { MovieEntity } from './movie.entity';
 import { MovieService } from './movie.service';
@@ -22,6 +23,15 @@ export class PostController {
     @Request() req
   ): Promise<MovieEntity> {
     return this.movieService.create(createMovieDto, req.user);
+  }
+
+  @Post()
+  @UseGuards(AuthGuard)
+  action(
+    @Body() actionMovieDto: ActionMovieDto,
+    @Request() req
+  ): Promise<MovieEntity> {
+    return this.movieService.action(actionMovieDto, req.user);
   }
 
   @Get()

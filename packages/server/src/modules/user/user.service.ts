@@ -9,7 +9,7 @@ import { SALT_OR_ROUNDS } from '~/config';
 import { UserDto } from './dto/user.dto';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly usersRepository: Repository<UserEntity>

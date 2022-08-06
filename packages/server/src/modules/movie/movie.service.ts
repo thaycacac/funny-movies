@@ -1,3 +1,4 @@
+import { UserEntity } from './../user/user.entity';
 import { ENDPOINT_YOUTUBE, KEY_YOUTUBE } from './../../config';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
@@ -7,12 +8,15 @@ import { CreateMovieDto } from './dto/create-movie';
 import { MovieEntity } from './movie.entity';
 import { AxiosResponse } from 'axios';
 import { EnumMessageCode, MESSAGE_CODE } from '~/constants/message-code';
+import { UserDto } from '../user/dto/user.dto';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class MovieService {
   constructor(
     @InjectRepository(MovieEntity)
     private readonly movieService: Repository<MovieEntity>,
+    private readonly userService: UserService,
     private readonly httpService: HttpService
   ) {}
 
@@ -43,13 +47,16 @@ export class MovieService {
     });
   }
 
-  async create(createMovieDto: CreateMovieDto): Promise<any> {
+  async create(createMovieDto: CreateMovieDto, userDto: UserDto): Promise<any> {
+    const user: UserEntity = await this.userService.findByEmail(userDto.email);
+
     const { data }: any = await this.callApiGetVideoInfor(createMovieDto.url);
     const { title, description }: any = data?.items[0]?.snippet;
     const movie = new MovieEntity();
     movie.title = title;
     movie.description = description;
     movie.youtubeId = this.getIdYoutubeFromUrl(createMovieDto.url);
+    movie.createdBy = user;
     return this.movieService.save(movie);
   }
 

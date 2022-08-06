@@ -1,1 +1,1 @@
-# funny-movies
+# Funny Movies

@@ -1,0 +1,24 @@
+{
+  "name": "funny-movies",
+  "version": "1.0.0",
+  "author": "Thaycacac",
+  "description": "Practice project",
+  "directories": {
+    "doc": "docs"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "references": [
+    {
+      "path": "packages/domain"
+    },
+    {
+      "path": "packages/lib"
+    }
+  ],
+  "scripts": {
+    "lint": "yarn workspaces run lint"
+  }
+}

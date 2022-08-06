@@ -37,10 +37,29 @@ export class MovieService {
     }
   }
 
+  async findMovideByYoutubeId(youtubeId: string): Promise<MovieEntity> {
+    return this.movieService.findOne({
+      where: {
+        youtubeId: youtubeId,
+      },
+    });
+  }
   async callApiGetVideoInfor(url: string): Promise<AxiosResponse<any>> {
+    const youtubeId = this.getIdYoutubeFromUrl(url);
+    const movie: MovieEntity = await this.findMovideByYoutubeId(youtubeId);
+    if (movie) {
+      throw new HttpException(
+        {
+          code: EnumMessageCode.M004,
+          message: MESSAGE_CODE.M004,
+        },
+        HttpStatus.CONFLICT
+      );
+    }
+
     return await this.httpService.axiosRef.get(`${ENDPOINT_YOUTUBE}/videos`, {
       params: {
-        id: this.getIdYoutubeFromUrl(url),
+        id: youtubeId,
         part: 'snippet',
         key: KEY_YOUTUBE,
       },
@@ -48,14 +67,14 @@ export class MovieService {
   }
 
   async create(createMovieDto: CreateMovieDto, userDto: UserDto): Promise<any> {
-    const user: UserEntity = await this.userService.findByEmail(userDto.email);
-
     const { data }: any = await this.callApiGetVideoInfor(createMovieDto.url);
     const { title, description }: any = data?.items[0]?.snippet;
     const movie = new MovieEntity();
     movie.title = title;
     movie.description = description;
     movie.youtubeId = this.getIdYoutubeFromUrl(createMovieDto.url);
+
+    const user: UserEntity = await this.userService.findByEmail(userDto.email);
     movie.createdBy = user;
     return this.movieService.save(movie);
   }

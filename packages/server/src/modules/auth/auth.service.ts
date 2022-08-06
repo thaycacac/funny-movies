@@ -1,13 +1,10 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { EnumMessageCode, MESSAGE_CODE } from './../../constants/message-code';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login';
 import { UserEntity } from '../user/user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -16,15 +13,31 @@ export class AuthService {
     private readonly jwtService: JwtService
   ) {}
 
-  async getUserFromEmailAndPassword(email: string, pass: string): Promise<any> {
+  async getUserFromEmailAndPassword(
+    email: string,
+    password: string
+  ): Promise<any> {
     const user: UserEntity | null = await this.usersService.findByEmail(email);
     if (!user) {
-      throw new UnauthorizedException();
+      throw new HttpException(
+        {
+          status: EnumMessageCode.M002,
+          error: MESSAGE_CODE.M002,
+        },
+        HttpStatus.NOT_FOUND
+      );
     }
-    if (user.password === pass) {
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) {
       return user.safeResponse();
     } else {
-      throw new UnauthorizedException();
+      throw new HttpException(
+        {
+          status: EnumMessageCode.M002,
+          error: MESSAGE_CODE.M002,
+        },
+        HttpStatus.NOT_FOUND
+      );
     }
   }
 
@@ -33,15 +46,6 @@ export class AuthService {
       loginDto.email,
       loginDto.password
     );
-    if (!userSafe) {
-      throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          error: 'Account not exist or wrong password',
-        },
-        HttpStatus.NOT_FOUND
-      );
-    }
     return {
       access_token: await this.signToken(userSafe),
       user: userSafe,

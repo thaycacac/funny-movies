@@ -4,6 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './user.entity';
+import * as bcrypt from 'bcrypt';
+import { SALT_OR_ROUNDS } from '~/config';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UsersService {
@@ -12,8 +15,9 @@ export class UsersService {
     private readonly usersRepository: Repository<UserEntity>
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
-    const checkUser = await this.findByEmail(createUserDto.email);
+  async create(createUserDto: CreateUserDto): Promise<UserDto> {
+    const { email, password } = createUserDto;
+    const checkUser = await this.findByEmail(email);
     if (checkUser) {
       throw new HttpException(
         {
@@ -23,11 +27,12 @@ export class UsersService {
         HttpStatus.CONFLICT
       );
     }
+    const hashPassword = await bcrypt.hash(password, SALT_OR_ROUNDS);
     const user = new UserEntity();
-    user.email = createUserDto.email;
-    user.password = createUserDto.password;
-
-    return this.usersRepository.save(user);
+    user.email = email;
+    user.password = hashPassword;
+    this.usersRepository.save(user);
+    return user.safeResponse();
   }
 
   async findByEmail(email: string): Promise<UserEntity | null> {

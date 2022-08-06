@@ -14,11 +14,6 @@ import { LoginDto } from './dto/login';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('auth/register')
-  async register(@Body() loginDto: LoginDto): Promise<any> {
-    return this.authService.login(loginDto);
-  }
-
   @Post('auth/login')
   async login(@Body() loginDto: LoginDto): Promise<any> {
     return this.authService.login(loginDto);

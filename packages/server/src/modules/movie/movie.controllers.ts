@@ -3,7 +3,7 @@ import { CreateMovieDto } from './dto/create-movie';
 import { MovieEntity } from './movie.entity';
 import { MovieService } from './movie.service';
 
-@Controller('post')
+@Controller('videos')
 export class PostController {
   constructor(private readonly postService: MovieService) {}
 

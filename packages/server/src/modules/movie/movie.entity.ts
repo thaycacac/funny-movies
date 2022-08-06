@@ -7,6 +7,8 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -22,7 +24,7 @@ export class MovieEntity {
   title: string;
 
   @Column({
-    type: 'varchar',
+    type: 'text',
   })
   description: string;
 
@@ -31,18 +33,12 @@ export class MovieEntity {
     length: 255,
     nullable: false,
   })
-  url: string;
+  youtubeId: string;
 
-  @Column({
-    type: 'datetime',
-    nullable: false,
-  })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column({
-    type: 'datetime',
-    nullable: true,
-  })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @ManyToMany(() => UserEntity)

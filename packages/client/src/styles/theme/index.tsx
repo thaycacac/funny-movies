@@ -9,8 +9,6 @@ import componentsOverride from './overrides';
 
 import palette from './palette';
 
-// ----------------------------------------------------------------------
-
 interface ThemeConfigProps {
   children: React.ReactNode;
 }

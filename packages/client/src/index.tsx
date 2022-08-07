@@ -1,19 +1,26 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { App } from './app';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import { configureAppStore } from './store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+export const store = configureAppStore();
+
 root.render(
-  <HelmetProvider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </HelmetProvider>
+  <Provider store={store}>
+    <HelmetProvider>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </HelmetProvider>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

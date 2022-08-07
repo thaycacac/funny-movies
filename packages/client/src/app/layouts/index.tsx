@@ -29,7 +29,6 @@ const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })<{
     marginLeft: 0,
   }),
 }));
-// ----------------------------------------------------------------------
 
 function Layouts() {
   return (

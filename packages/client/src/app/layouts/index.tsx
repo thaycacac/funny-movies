@@ -7,6 +7,7 @@ const RootStyle = styled('div')({
   display: 'flex',
   minHeight: '100%',
   overflow: 'hidden',
+  flexDirection: 'column',
 });
 
 const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })<{
@@ -14,7 +15,9 @@ const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })<{
 }>(({ theme, open }) => ({
   flexGrow: 1,
   overflow: 'hidden',
-  background: '#E5E5E5',
+  background: 'white',
+  marginTop: '4rem',
+  minHeight: 'calc(100vh - 4rem)',
   padding: theme.spacing(3),
   transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,

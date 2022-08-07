@@ -1,7 +1,10 @@
+import Login from '../components/Login';
+
 function HomePage() {
   return (
     <>
-      <div>home page</div>
+      <div>home pages</div>
+      <Login />
     </>
   );
 }

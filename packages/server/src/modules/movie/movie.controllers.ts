@@ -20,7 +20,7 @@ export class PostController {
   @UseGuards(AuthGuard)
   create(
     @Body() createMovieDto: CreateMovieDto,
-    @Request() req
+    @Request() req: any
   ): Promise<MovieEntity> {
     return this.movieService.create(createMovieDto, req.user);
   }
@@ -29,7 +29,7 @@ export class PostController {
   @UseGuards(AuthGuard)
   action(
     @Body() actionMovieDto: ActionMovieDto,
-    @Request() req
+    @Request() req: any
   ): Promise<MovieEntity> {
     return this.movieService.action(actionMovieDto, req.user);
   }

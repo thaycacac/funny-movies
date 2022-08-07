@@ -7,6 +7,7 @@ import { UserEntity } from '../user/user.entity';
 import * as bcrypt from 'bcrypt';
 import { UserDto } from '../user/dto/user.dto';
 import { EnumMessageCode } from '~/enums';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -21,13 +22,10 @@ export class AuthService {
   ): Promise<any> {
     const user: UserEntity | null = await this.userService.findByEmail(email);
     if (!user) {
-      throw new HttpException(
-        {
-          status: EnumMessageCode.M002,
-          error: MESSAGE_CODE.M002,
-        },
-        HttpStatus.NOT_FOUND
-      );
+      const createUserDto = new CreateUserDto();
+      createUserDto.email = email;
+      createUserDto.password = password;
+      return this.userService.create(createUserDto);
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {

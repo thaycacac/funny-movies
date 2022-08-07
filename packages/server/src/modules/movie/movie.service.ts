@@ -1,4 +1,3 @@
-import { UserEntity } from './../user/user.entity';
 import { ENDPOINT_YOUTUBE, KEY_YOUTUBE } from './../../config';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
@@ -39,7 +38,7 @@ export class MovieService {
     }
   }
 
-  async findMovideByYoutubeId(youtubeId: string): Promise<MovieEntity> {
+  async findMovideByYoutubeId(youtubeId: string): Promise<MovieEntity | null> {
     return this.movieService.findOne({
       where: {
         youtubeId: youtubeId,
@@ -48,7 +47,9 @@ export class MovieService {
   }
   async callApiGetVideoInfor(url: string): Promise<AxiosResponse<any>> {
     const youtubeId = this.getIdYoutubeFromUrl(url);
-    const movie: MovieEntity = await this.findMovideByYoutubeId(youtubeId);
+    const movie: MovieEntity | null = await this.findMovideByYoutubeId(
+      youtubeId
+    );
     if (movie) {
       throw new HttpException(
         {
@@ -76,26 +77,26 @@ export class MovieService {
     movie.description = description;
     movie.youtubeId = this.getIdYoutubeFromUrl(createMovieDto.url);
 
-    const user: UserEntity = await this.userService.findByEmail(userDto.email);
-    movie.createdBy = user;
+    // const user: UserEntity = await this.userService.findByEmail(userDto.email);
+    // movie.createdBy = user;
     return this.movieService.save(movie);
   }
 
   async action(actionMovieDto: ActionMovieDto, userDto: UserDto): Promise<any> {
-    const movie: MovieEntity = await this.movieService.findOne({
-      where: {
-        id: actionMovieDto.id,
-      },
-    });
-    if (!movie) {
-      throw new HttpException(
-        {
-          code: EnumMessageCode.M005,
-          message: MESSAGE_CODE.M005,
-        },
-        HttpStatus.BAD_REQUEST
-      );
-    }
+    // const movie: MovieEntity = await this.movieService.findOne({
+    //   where: {
+    //     id: actionMovieDto.id,
+    //   },
+    // });
+    // if (!movie) {
+    //   throw new HttpException(
+    //     {
+    //       code: EnumMessageCode.M005,
+    //       message: MESSAGE_CODE.M005,
+    //     },
+    //     HttpStatus.BAD_REQUEST
+    //   );
+    // }
     return null;
   }
 

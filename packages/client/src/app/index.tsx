@@ -5,6 +5,7 @@ import Routes from './routers';
 
 import ThemeConfig from '../styles/theme';
 import { GlobalStyle } from '../styles/globalStyles';
+import { Toaster } from 'react-hot-toast';
 
 export function App() {
   return (
@@ -15,6 +16,7 @@ export function App() {
         </Helmet>
         <Routes />
         <GlobalStyle styles={undefined} />
+        <Toaster />
       </ThemeConfig>
     </BrowserRouter>
   );

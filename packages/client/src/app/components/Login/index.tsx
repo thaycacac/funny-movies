@@ -6,21 +6,38 @@ import { useNavigate } from 'react-router-dom';
 import { withLoading } from '../../hocs';
 import { useLoading } from '../../hooks/useLoading';
 import LoginForm from './LoginForm';
+import { useAuthSlice } from './slice';
 
 interface Props {}
 
 const Login = (props: Props) => {
-  // const { actions } = useAuthSlice();
+  const { actions } = useAuthSlice();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { showLoading, hideLoading } = useLoading(props);
   const [error, setError] = useState(false);
 
   const handleLogin = useCallback(
-    ({ username, password }: any) => {
+    async ({ email, password }: any) => {
       showLoading();
+      dispatch(
+        actions.login({ email, password }, (err?: any) => {
+          hideLoading();
+          if (!err) {
+            dispatch(
+              actions.getUserInfo((error: any) => {
+                if (!error) navigate(-1);
+                else console.log('error');
+              })
+            );
+          } else {
+            setError(err);
+          }
+        })
+      );
     },
-    [dispatch, navigate]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [navigate]
   );
 
   const clearError = () => {

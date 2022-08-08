@@ -75,6 +75,7 @@ export default function MovieShare() {
             )}
           />
           <LoadingButton
+            data-testid="button-share"
             fullWidth
             size="large"
             type="submit"

@@ -9,7 +9,7 @@ import NotLogin from '../Login/NotLogin';
 import { useNavigate } from 'react-router';
 import path from '../../routers/path';
 
-export default function ButtonAppBar() {
+export default function Header() {
   const navigate = useNavigate();
   const isLogined = useSelector(selectIsLogined);
 

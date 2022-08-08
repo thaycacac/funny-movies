@@ -42,7 +42,11 @@ const ActionStatus: React.FC<Props> = ({ id, status }) => {
             </>
           ) : status === EnumActionType.LIKE ? (
             <>
-              <ThumbUpIcon fontSize="large" sx={{ mr: 1, cursor: 'pointer' }} />
+              <ThumbUpIcon
+                fontSize="large"
+                sx={{ mr: 1, cursor: 'pointer' }}
+                onClick={() => handleActionMovie(EnumActionType.REMOVE_LIKE)}
+              />
               <span>(voted up)</span>
             </>
           ) : (
@@ -50,6 +54,7 @@ const ActionStatus: React.FC<Props> = ({ id, status }) => {
               <ThumbDownIcon
                 fontSize="large"
                 sx={{ mr: 1, cursor: 'pointer' }}
+                onClick={() => handleActionMovie(EnumActionType.REMOVE_DISLIKE)}
               />
               <span>(voted down)</span>
             </>

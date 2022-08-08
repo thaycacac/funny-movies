@@ -30,16 +30,56 @@ const slice = createSlice({
       return state;
     },
     action(state, action: PayloadAction<MovieActionParams>) {
-      state.list = state.list.map(item => {
-        if (item.id !== action.payload.id) return item;
-        else {
-          return {
-            ...item,
-            status: EnumActionType.LIKE,
-            likeCount: item.likeCount + 1,
-          };
-        }
-      });
+      switch (action.type) {
+        case EnumActionType.LIKE:
+          state.list = state.list.map(item => {
+            if (item.id !== action.payload.id) return item;
+            else {
+              return {
+                ...item,
+                status: EnumActionType.LIKE,
+                likeCount: item.likeCount + 1,
+              };
+            }
+          });
+          break;
+        case EnumActionType.REMOVE_LIKE:
+          state.list = state.list.map(item => {
+            if (item.id !== action.payload.id) return item;
+            else {
+              return {
+                ...item,
+                status: EnumActionType.UNVOTE,
+                likeCount: item.likeCount - 1,
+              };
+            }
+          });
+          break;
+        case EnumActionType.DISLIKE:
+          state.list = state.list.map(item => {
+            if (item.id !== action.payload.id) return item;
+            else {
+              return {
+                ...item,
+                status: EnumActionType.DISLIKE,
+                likeCount: item.dislikeCount + 1,
+              };
+            }
+          });
+          break;
+        case EnumActionType.REMOVE_DISLIKE:
+          state.list = state.list.map(item => {
+            if (item.id !== action.payload.id) return item;
+            else {
+              return {
+                ...item,
+                status: EnumActionType.UNVOTE,
+                likeCount: item.dislikeCount - 1,
+              };
+            }
+          });
+          break;
+      }
     },
   },
 });

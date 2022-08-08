@@ -28,7 +28,7 @@ const MovieCard: React.FC<Props> = ({ movie }) => {
         style={{
           border: 'none',
         }}
-        src="https://www.youtube.com/embed/tgbNymZ7vqY?&mute=1"
+        src={`https://www.youtube.com/embed/${movie.youtubeId}?&mute=1`}
         title="youtube video"
       ></iframe>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -38,7 +38,16 @@ const MovieCard: React.FC<Props> = ({ movie }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Typography component="div" variant="h5">
+            <Typography
+              component="div"
+              variant="h5"
+              sx={{
+                display: '-webkit-box',
+                overflow: 'hidden',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 2,
+              }}
+            >
               {movie.title}
             </Typography>
             {!isLogined && (
@@ -101,7 +110,16 @@ const MovieCard: React.FC<Props> = ({ movie }) => {
           <Typography variant="subtitle1" color="text.secondary">
             Description:
           </Typography>
-          <Typography variant="subtitle2" color="text.secondary">
+          <Typography
+            variant="subtitle2"
+            color="text.secondary"
+            sx={{
+              display: '-webkit-box',
+              overflow: 'hidden',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 4,
+            }}
+          >
             {movie.description}
           </Typography>
         </CardContent>

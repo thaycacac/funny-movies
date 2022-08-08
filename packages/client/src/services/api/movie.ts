@@ -13,3 +13,10 @@ export const apiPostShare = (params: MovieParams): AxiosPromise<any> => {
     data: params,
   });
 };
+
+export const apiGetVideos = (): AxiosPromise<any> => {
+  return request({
+    url: MOVIE_API.root,
+    method: 'get',
+  });
+};

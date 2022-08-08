@@ -1,13 +1,16 @@
+import { apiGetVideos } from './../../../../services/api/movie';
 import { call, takeLatest, put } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 import { authActions as actions } from '.';
-import { AuthParams, AuthResponse } from '../../../../types/Auth';
+import { Movie } from '../../../../types/Movie';
 
 export function* trigger(
-  action: PayloadAction<AuthParams, string, (error?: any) => void>
+  action: PayloadAction<any, string, (error?: any) => void>
 ) {
   try {
+    const response: Movie[] = yield call(apiGetVideos);
+    yield put(actions.success(response));
   } catch (error: any) {
     action.meta(error.response?.data);
     console.log(

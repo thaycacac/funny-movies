@@ -11,7 +11,8 @@ function MovieList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(actions.success());
+    dispatch(actions.trigger());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

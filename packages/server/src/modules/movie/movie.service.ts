@@ -151,6 +151,7 @@ export class MovieService {
     } else if (movie.dislikeBy?.map(item => item.id).includes(user.id)) {
       return EnumActionType.DISLIKE;
     }
+    return EnumActionType.UNVOTE;
   }
 
   async findAll(userDto: UserDto | null): Promise<any> {

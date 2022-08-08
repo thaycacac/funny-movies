@@ -10,3 +10,7 @@ export interface Movie {
   description: string;
   status: EnumActionType;
 }
+
+export interface MovieParams {
+  url: string;
+}

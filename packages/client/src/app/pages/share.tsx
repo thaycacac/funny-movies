@@ -1,8 +1,11 @@
+import { Container } from '@mui/material';
+import MovieShare from '../components/MovieShare';
+
 function SharePage() {
   return (
-    <>
-      <div>Share page</div>
-    </>
+    <Container maxWidth="sm">
+      <MovieShare />
+    </Container>
   );
 }
 

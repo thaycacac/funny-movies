@@ -9,9 +9,15 @@ export enum EnumMessageCode {
   M008 = 'M008',
   M009 = 'M009',
   M010 = 'M010',
+  M011 = 'M011',
+  M012 = 'M012',
+  M013 = 'M013',
 }
 
 export enum EnumActionType {
   LIKE = 'LIKE',
+  REMOVE_LIKE = 'REMOVE_LIKE',
   DISLIKE = 'DISLIKE',
+  REMOVE_DISLIKE = 'REMOVE_DISLIKE',
+  UNVOTE = 'UNVOTE',
 }

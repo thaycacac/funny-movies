@@ -10,5 +10,8 @@ export const MESSAGE_CODE = {
   [EnumMessageCode.M007]: 'Error! An error occurred. Please try again!',
   [EnumMessageCode.M008]: 'Register successfully',
   [EnumMessageCode.M009]: 'Login successfully',
-  [EnumMessageCode.M010]: '',
+  [EnumMessageCode.M010]: 'Logout successfully',
+  [EnumMessageCode.M011]: 'Like successfully',
+  [EnumMessageCode.M012]: 'Un-voted successfully',
+  [EnumMessageCode.M013]: 'Dislike successfully',
 };

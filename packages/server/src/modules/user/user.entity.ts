@@ -36,12 +36,6 @@ export class UserEntity {
   @OneToMany(() => MovieEntity, (movie: MovieEntity) => movie.id)
   created: MovieEntity[];
 
-  @OneToMany(() => MovieEntity, (movie: MovieEntity) => movie.id)
-  likes: MovieEntity[];
-
-  @OneToMany(() => MovieEntity, (movie: MovieEntity) => movie.id)
-  dislikes: MovieEntity[];
-
   safeResponse() {
     return pick(this, ['email']);
   }

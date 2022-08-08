@@ -9,8 +9,10 @@ import { AxiosResponse } from 'axios';
 import { MESSAGE_CODE } from '~/constants';
 import { UserDto } from '../user/dto/user.dto';
 import { UserService } from '../user/user.service';
-import { EnumMessageCode } from '~/enums';
+import { EnumActionType, EnumMessageCode } from '~/enums';
 import { ActionMovieDto } from './dto/action-movie';
+import { UserEntity } from '../user/user.entity';
+import { ResponseSuccessDto } from '~/shared/success-dto';
 
 @Injectable()
 export class MovieService {
@@ -77,30 +79,99 @@ export class MovieService {
     movie.description = description;
     movie.youtubeId = this.getIdYoutubeFromUrl(createMovieDto.url);
 
-    // const user: UserEntity = await this.userService.findByEmail(userDto.email);
-    // movie.createdBy = user;
+    const user: UserEntity | null = await this.userService.findByEmail(
+      userDto.email
+    );
+    if (user) {
+      movie.createdBy = user;
+    }
     return this.movieService.save(movie);
   }
 
   async action(actionMovieDto: ActionMovieDto, userDto: UserDto): Promise<any> {
-    // const movie: MovieEntity = await this.movieService.findOne({
-    //   where: {
-    //     id: actionMovieDto.id,
-    //   },
-    // });
-    // if (!movie) {
-    //   throw new HttpException(
-    //     {
-    //       code: EnumMessageCode.M005,
-    //       message: MESSAGE_CODE.M005,
-    //     },
-    //     HttpStatus.BAD_REQUEST
-    //   );
-    // }
-    return null;
+    const movie: MovieEntity | null = await this.movieService.findOne({
+      where: {
+        id: actionMovieDto.id,
+      },
+    });
+    if (!movie) {
+      throw new HttpException(
+        {
+          code: EnumMessageCode.M005,
+          message: MESSAGE_CODE.M005,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
+    const responseSuccessDto = new ResponseSuccessDto();
+
+    const user: UserEntity | null = await this.userService.findByEmail(
+      userDto.email
+    );
+    if (user) {
+      console.log('runnn1');
+      if (actionMovieDto.type === EnumActionType.LIKE) {
+        console.log('runnn2');
+
+        movie?.likeBy?.length
+          ? (movie.likeBy = [...movie.likeBy, user])
+          : (movie.likeBy = [user]);
+        responseSuccessDto.code = EnumMessageCode.M011;
+      } else if (actionMovieDto.type === EnumActionType.REMOVE_LIKE) {
+        console.log(movie, user.id);
+        movie.likeBy = movie.likeBy?.filter(item => item.id !== user.id);
+        responseSuccessDto.code = EnumMessageCode.M012;
+      } else if (actionMovieDto.type === EnumActionType.DISLIKE) {
+        console.log('runnn4');
+
+        movie?.dislikeBy?.length
+          ? (movie.dislikeBy = [...movie.dislikeBy, user])
+          : (movie.dislikeBy = [user]);
+        responseSuccessDto.code = EnumMessageCode.M013;
+      } else if (actionMovieDto.type === EnumActionType.REMOVE_DISLIKE) {
+        console.log('runnn5');
+        movie.dislikeBy = movie.dislikeBy?.filter(item => item.id !== user.id);
+        responseSuccessDto.code = EnumMessageCode.M012;
+      }
+    }
+    return await this.movieService.save(movie);
+
+    return responseSuccessDto;
   }
 
-  async findAll(): Promise<MovieEntity[]> {
-    return this.movieService.find();
+  getStatus(movie: MovieEntity, user: UserEntity | null) {
+    if (!user) {
+      return EnumActionType.UNVOTE;
+    }
+    if (movie.likeBy?.map(item => item.id).includes(user.id)) {
+      return EnumActionType.LIKE;
+    } else if (movie.dislikeBy?.map(item => item.id).includes(user.id)) {
+      return EnumActionType.DISLIKE;
+    }
+  }
+
+  async findAll(userDto: UserDto | null): Promise<any> {
+    const movies: MovieEntity[] = await this.movieService.find({
+      relations: {
+        likeBy: true,
+        dislikeBy: true,
+      },
+    });
+    let user: UserEntity | null = null;
+    console.log(userDto);
+    if (userDto) {
+      user = await this.userService.findByEmail(userDto.email);
+    }
+    return movies.map(movie => {
+      return {
+        id: movie.id,
+        title: movie.title,
+        description: movie.description,
+        youtubeId: movie.youtubeId,
+        likeCount: movie.likeBy.length,
+        dislikeCount: movie.dislikeBy.length,
+        status: this.getStatus(movie, user),
+      };
+    });
   }
 }

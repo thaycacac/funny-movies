@@ -25,7 +25,7 @@ export class PostController {
     return this.movieService.create(createMovieDto, req.user);
   }
 
-  @Post()
+  @Post('action')
   @UseGuards(AuthGuard)
   action(
     @Body() actionMovieDto: ActionMovieDto,
@@ -35,7 +35,8 @@ export class PostController {
   }
 
   @Get()
-  findAll(): Promise<MovieEntity[]> {
-    return this.movieService.findAll();
+  @UseGuards(AuthGuard)
+  findAll(@Request() req: any): Promise<MovieEntity[]> {
+    return this.movieService.findAll(req.user);
   }
 }

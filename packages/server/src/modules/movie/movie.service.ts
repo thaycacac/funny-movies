@@ -124,7 +124,7 @@ export class MovieService {
             console.log(item.id, user.id);
             return item.id !== user.id;
           });
-          responseSuccessDto.code = EnumMessageCode.M012;
+          // responseSuccessDto.code = EnumMessageCode.M012;
           break;
         case EnumActionType.DISLIKE:
           movie?.dislikeBy?.length
@@ -136,7 +136,7 @@ export class MovieService {
           movie.dislikeBy = movie.dislikeBy?.filter(
             item => item.id !== user.id
           );
-          responseSuccessDto.code = EnumMessageCode.M012;
+          // responseSuccessDto.code = EnumMessageCode.M012;
           break;
       }
     }

@@ -30,7 +30,7 @@ const slice = createSlice({
       return state;
     },
     action(state, action: PayloadAction<MovieActionParams>) {
-      switch (action.type) {
+      switch (action.payload.type) {
         case EnumActionType.LIKE:
           state.list = state.list.map(item => {
             if (item.id !== action.payload.id) return item;
@@ -56,6 +56,7 @@ const slice = createSlice({
           });
           break;
         case EnumActionType.DISLIKE:
+          console.log('run');
           state.list = state.list.map(item => {
             if (item.id !== action.payload.id) return item;
             else {

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AuthParams, AuthResponse } from '../../../../types/Auth';
+import { AuthParams } from '../../../../types/Auth';
 import {
   useInjectReducer,
   useInjectSaga,
@@ -16,7 +16,7 @@ const slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loginSuccess(state, action: PayloadAction<AuthResponse>) {
+    loginSuccess(state, action: PayloadAction<any>) {
       state.email = action.payload.email;
     },
     clear(state) {

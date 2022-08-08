@@ -1,7 +1,6 @@
 import { Button, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { LocalStorageService } from '../../../services';
 import path from '../../routers/path';
 import { useAuthSlice } from './slice';
 import { selectEmail } from './slice/selectors';

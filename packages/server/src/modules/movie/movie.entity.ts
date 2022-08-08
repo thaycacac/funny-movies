@@ -5,8 +5,7 @@ import {
   ManyToMany,
   JoinTable,
   PrimaryGeneratedColumn,
-  OneToOne,
-  JoinColumn,
+  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -49,7 +48,6 @@ export class MovieEntity {
   @JoinTable()
   dislikeBy: UserEntity[];
 
-  @OneToOne(() => UserEntity)
-  @JoinColumn()
+  @ManyToOne(() => UserEntity, user => user.id)
   createdBy: UserEntity;
 }

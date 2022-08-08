@@ -4,8 +4,9 @@ export interface Movie {
   id: string;
   title: string;
   sharedBy: string;
+  youtubeId: string;
   likeCount: number;
   dislikeCount: number;
   description: string;
-  vote: EnumActionType;
+  status: EnumActionType;
 }

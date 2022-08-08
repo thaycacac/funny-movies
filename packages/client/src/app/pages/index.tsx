@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import MovieList from '../components/MovieCard';
+import MovieList from '../components/Movie';
 
 function HomePage() {
   return (

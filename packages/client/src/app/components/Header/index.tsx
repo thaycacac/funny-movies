@@ -24,7 +24,7 @@ export default function ButtonAppBar() {
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1 }}
+            sx={{ flexGrow: 1, cursor: 'pointer' }}
             onClick={gotoHome}
           >
             FUNNY MOVIES

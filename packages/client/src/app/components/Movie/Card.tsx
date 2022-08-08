@@ -43,7 +43,7 @@ const MovieCard: React.FC<Props> = ({ movie }) => {
             </Typography>
             {!isLogined && (
               <Stack direction="row" alignItems="center">
-                {movie.vote === EnumActionType.UNVOTE ? (
+                {movie.status === EnumActionType.UNVOTE ? (
                   <>
                     <ThumbUpOutlinedIcon
                       fontSize="large"
@@ -55,7 +55,7 @@ const MovieCard: React.FC<Props> = ({ movie }) => {
                     />
                     <span>(un-voted)</span>
                   </>
-                ) : movie.vote === EnumActionType.LIKE ? (
+                ) : movie.status === EnumActionType.LIKE ? (
                   <>
                     <ThumbUpIcon
                       fontSize="large"

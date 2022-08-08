@@ -15,7 +15,9 @@ export enum EnumMessageCode {
 }
 
 export enum EnumActionType {
-  LIKE = 1,
-  DISLIKE = -1,
-  UNVOTE = 0,
+  LIKE = 'LIKE',
+  REMOVE_LIKE = 'REMOVE_LIKE',
+  DISLIKE = 'DISLIKE',
+  REMOVE_DISLIKE = 'REMOVE_DISLIKE',
+  UNVOTE = 'UNVOTE',
 }

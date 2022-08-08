@@ -155,6 +155,7 @@ export class MovieService {
       relations: {
         likeBy: true,
         dislikeBy: true,
+        createdBy: true,
       },
     });
     let user: UserEntity | null = null;

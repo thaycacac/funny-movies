@@ -17,7 +17,13 @@ const slice = createSlice({
   initialState,
   reducers: {
     loginSuccess(state, action: PayloadAction<AuthResponse>) {
-      state.email = action.payload.user.email;
+      state.email = action.payload.email;
+    },
+    clear(state) {
+      state.email = null;
+    },
+    logout(state) {
+      return state;
     },
     login: {
       reducer(state) {
@@ -25,12 +31,6 @@ const slice = createSlice({
       },
       prepare(params: AuthParams, meta: (error?: any) => void) {
         return { payload: params, meta };
-      },
-    },
-    getUserInfo: {
-      reducer() {},
-      prepare(meta: (error?: any) => void) {
-        return { payload: meta };
       },
     },
   },

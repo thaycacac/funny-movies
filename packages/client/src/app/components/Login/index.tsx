@@ -23,16 +23,6 @@ const Login = (props: Props) => {
       dispatch(
         actions.login({ email, password }, (err?: any) => {
           hideLoading();
-          if (!err) {
-            dispatch(
-              actions.getUserInfo((error: any) => {
-                if (!error) navigate(-1);
-                else console.log('error');
-              })
-            );
-          } else {
-            setError(err);
-          }
         })
       );
     },

@@ -1,5 +1,4 @@
 import { EnumMessageCode } from '../enums';
-import { User } from './User';
 
 export interface AuthParams {
   email: string;
@@ -8,6 +7,6 @@ export interface AuthParams {
 
 export interface AuthResponse {
   access_token: string;
-  user: User;
+  email: string;
   code: EnumMessageCode;
 }

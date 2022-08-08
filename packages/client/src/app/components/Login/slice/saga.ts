@@ -22,6 +22,7 @@ export function* login(
       LocalStorageService.OAUTH_TOKEN,
       response.access_token
     );
+    LocalStorageService.set(LocalStorageService.USER_INFO, response.email);
     toast.success(MESSAGE_CODE[response.code] as EnumMessageCode);
     yield put(actions.loginSuccess(response));
     action.meta();
@@ -34,17 +35,21 @@ export function* login(
   }
 }
 
-// function* getUserInfo(action: PayloadAction<(error?: any) => void>) {
-//   try {
-//     const userInfo: UserInfo = yield call(keycloakService.getUserInfo);
-//     LocalStorageService.set(LocalStorageService.USER_INFO, userInfo);
-//     action.payload();
-//   } catch (error: any) {
-//     action.payload(error.response?.data);
-//   }
-// }
+export function* logout() {
+  try {
+    LocalStorageService.removeItem(LocalStorageService.OAUTH_TOKEN);
+    LocalStorageService.removeItem(LocalStorageService.USER_INFO);
+    toast.success(MESSAGE_CODE[EnumMessageCode.M010]);
+    yield put(actions.clear());
+  } catch (error: any) {
+    console.log(
+      '🚀 ~ file: saga.ts ~ line 8 ~ function*logout ~ error',
+      error.response?.data
+    );
+  }
+}
 
 export function* authSaga() {
   yield takeLatest(actions.login.type, login);
-  // yield takeLatest(actions.getUserInfo.type, getUserInfo);
+  yield takeLatest(actions.logout.type, logout);
 }

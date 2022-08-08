@@ -1,10 +1,12 @@
-import Login from '../components/Login';
+import { Container } from '@mui/material';
+import MovieList from '../components/MovieCard';
 
 function HomePage() {
   return (
     <>
-      <div>home pages</div>
-      <Login />
+      <Container maxWidth="md">
+        <MovieList />
+      </Container>
     </>
   );
 }

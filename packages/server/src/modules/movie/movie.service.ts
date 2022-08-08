@@ -96,6 +96,10 @@ export class MovieService {
       where: {
         id: actionMovieDto.id,
       },
+      relations: {
+        likeBy: true,
+        dislikeBy: true,
+      },
     });
     if (!movie) {
       throw new HttpException(
@@ -121,7 +125,6 @@ export class MovieService {
           break;
         case EnumActionType.REMOVE_LIKE:
           movie.likeBy = movie.likeBy?.filter(item => {
-            console.log(item.id, user.id);
             return item.id !== user.id;
           });
           // responseSuccessDto.code = EnumMessageCode.M012;

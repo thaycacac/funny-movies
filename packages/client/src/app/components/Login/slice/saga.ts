@@ -26,6 +26,7 @@ export function* login(
     toast.success(MESSAGE_CODE[response.code] as EnumMessageCode);
     yield put(actions.loginSuccess(response));
     action.meta();
+    window.location.reload();
   } catch (error: any) {
     action.meta(error.response?.data);
     console.log(
@@ -41,6 +42,7 @@ export function* logout() {
     LocalStorageService.removeItem(LocalStorageService.USER_INFO);
     toast.success(MESSAGE_CODE[EnumMessageCode.M010]);
     yield put(actions.clear());
+    window.location.reload();
   } catch (error: any) {
     console.log(
       '🚀 ~ file: saga.ts ~ line 8 ~ function*logout ~ error',

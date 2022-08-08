@@ -3,4 +3,5 @@ export const emailRegex =
 export const onlyAlphabetAndNumber = /[^a-zA-Z0-9 ]/;
 
 export const youtubeUrlRegex =
+  // eslint-disable-next-line no-useless-escape
   /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;

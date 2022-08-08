@@ -56,14 +56,13 @@ const slice = createSlice({
           });
           break;
         case EnumActionType.DISLIKE:
-          console.log('run');
           state.list = state.list.map(item => {
             if (item.id !== action.payload.id) return item;
             else {
               return {
                 ...item,
                 status: EnumActionType.DISLIKE,
-                likeCount: item.dislikeCount + 1,
+                dislikeCount: item.dislikeCount + 1,
               };
             }
           });

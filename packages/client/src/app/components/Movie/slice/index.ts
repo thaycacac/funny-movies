@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Movie } from '../../../../types/Movie';
+import { EnumActionType } from '../../../../enums';
+import { Movie, MovieActionParams } from '../../../../types/Movie';
 import {
   useInjectReducer,
   useInjectSaga,
@@ -24,6 +25,21 @@ const slice = createSlice({
     },
     trigger(state) {
       return state;
+    },
+    triggerAction(state, _: PayloadAction<MovieActionParams>) {
+      return state;
+    },
+    action(state, action: PayloadAction<MovieActionParams>) {
+      state.list = state.list.map(item => {
+        if (item.id !== action.payload.id) return item;
+        else {
+          return {
+            ...item,
+            status: EnumActionType.LIKE,
+            likeCount: item.likeCount + 1,
+          };
+        }
+      });
     },
   },
 });

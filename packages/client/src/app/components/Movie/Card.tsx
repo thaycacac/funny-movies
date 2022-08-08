@@ -5,21 +5,17 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOffAltOutlinedIcon from '@mui/icons-material/ThumbDownOffAltOutlined';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+
 import { Stack } from '@mui/material';
 import { Movie } from '../../../types/Movie';
-import { useSelector } from 'react-redux';
-import { selectIsLogined } from '../Login/slice/selectors';
-import { EnumActionType } from '../../../enums';
+
+import ActionStatus from './ActionStatus';
 
 type Props = {
   movie: Movie;
 };
 
 const MovieCard: React.FC<Props> = ({ movie }) => {
-  const isLogined = useSelector(selectIsLogined);
-
   return (
     <Card sx={{ display: 'flex', mb: 2 }}>
       <iframe
@@ -50,39 +46,7 @@ const MovieCard: React.FC<Props> = ({ movie }) => {
             >
               {movie.title}
             </Typography>
-            {!isLogined && (
-              <Stack direction="row" alignItems="center">
-                {movie.status === EnumActionType.UNVOTE ? (
-                  <>
-                    <ThumbUpOutlinedIcon
-                      fontSize="large"
-                      sx={{ mr: 2, cursor: 'pointer' }}
-                    />
-                    <ThumbDownOffAltOutlinedIcon
-                      fontSize="large"
-                      sx={{ mr: 1, cursor: 'pointer' }}
-                    />
-                    <span>(un-voted)</span>
-                  </>
-                ) : movie.status === EnumActionType.LIKE ? (
-                  <>
-                    <ThumbUpIcon
-                      fontSize="large"
-                      sx={{ mr: 1, cursor: 'pointer' }}
-                    />
-                    <span>(voted up)</span>
-                  </>
-                ) : (
-                  <>
-                    <ThumbDownIcon
-                      fontSize="large"
-                      sx={{ mr: 1, cursor: 'pointer' }}
-                    />
-                    <span>(voted down)</span>
-                  </>
-                )}
-              </Stack>
-            )}
+            <ActionStatus id={movie.id} status={movie.status} />
           </Stack>
           <Typography variant="subtitle1" color="text.secondary">
             Shared by: {movie.sharedBy}

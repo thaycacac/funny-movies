@@ -14,3 +14,8 @@ export interface Movie {
 export interface MovieParams {
   url: string;
 }
+
+export interface MovieActionParams {
+  id: string;
+  type: EnumActionType;
+}

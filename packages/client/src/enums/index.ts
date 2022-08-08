@@ -12,6 +12,7 @@ export enum EnumMessageCode {
 }
 
 export enum EnumActionType {
-  LIKE = 'LIKE',
-  DISLIKE = 'DISLIKE',
+  LIKE = 1,
+  DISLIKE = -1,
+  UNVOTE = 0,
 }

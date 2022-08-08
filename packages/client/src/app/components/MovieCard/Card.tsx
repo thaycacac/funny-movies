@@ -1,25 +1,36 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOffAltOutlinedIcon from '@mui/icons-material/ThumbDownOffAltOutlined';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { Stack } from '@mui/material';
+import { Movie } from '../../../types/Movie';
+import { useSelector } from 'react-redux';
+import { selectIsLogined } from '../Login/slice/selectors';
+import { EnumActionType } from '../../../enums';
 
-export default function MovieCard() {
-  const theme = useTheme();
+type Props = {
+  movie: Movie;
+};
+
+const MovieCard: React.FC<Props> = ({ movie }) => {
+  const isLogined = useSelector(selectIsLogined);
 
   return (
     <Card sx={{ display: 'flex', mb: 2 }}>
-      <CardMedia
-        component="img"
-        sx={{ width: 275 }}
-        image="https://www.techsmith.com/blog/wp-content/uploads/2020/09/how-to-make-a-product-demo-hero.png"
-        alt="Live from space album cover"
-      />
+      <iframe
+        width="400"
+        height="250"
+        style={{
+          border: 'none',
+        }}
+        src="https://www.youtube.com/embed/tgbNymZ7vqY?&mute=1"
+        title="youtube video"
+      ></iframe>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <CardContent sx={{ flex: '1 0 auto' }}>
           <Stack
@@ -28,15 +39,44 @@ export default function MovieCard() {
             justifyContent="space-between"
           >
             <Typography component="div" variant="h5">
-              Movie Title
+              {movie.title}
             </Typography>
-            <div>
-              <ThumbUpOutlinedIcon fontSize="large" sx={{ mr: 2 }} />
-              <ThumbDownOffAltOutlinedIcon fontSize="large" />
-            </div>
+            {!isLogined && (
+              <Stack direction="row" alignItems="center">
+                {movie.vote === EnumActionType.UNVOTE ? (
+                  <>
+                    <ThumbUpOutlinedIcon
+                      fontSize="large"
+                      sx={{ mr: 2, cursor: 'pointer' }}
+                    />
+                    <ThumbDownOffAltOutlinedIcon
+                      fontSize="large"
+                      sx={{ mr: 1, cursor: 'pointer' }}
+                    />
+                    <span>(un-voted)</span>
+                  </>
+                ) : movie.vote === EnumActionType.LIKE ? (
+                  <>
+                    <ThumbUpIcon
+                      fontSize="large"
+                      sx={{ mr: 1, cursor: 'pointer' }}
+                    />
+                    <span>(voted up)</span>
+                  </>
+                ) : (
+                  <>
+                    <ThumbDownIcon
+                      fontSize="large"
+                      sx={{ mr: 1, cursor: 'pointer' }}
+                    />
+                    <span>(voted down)</span>
+                  </>
+                )}
+              </Stack>
+            )}
           </Stack>
           <Typography variant="subtitle1" color="text.secondary">
-            Shared by: thaycacac@gmail.com
+            Shared by: {movie.sharedBy}
           </Typography>
           <Stack direction="row" alignItems="center">
             <Typography
@@ -45,7 +85,7 @@ export default function MovieCard() {
               variant="subtitle1"
               color="text.secondary"
             >
-              89
+              {movie.likeCount}
             </Typography>
             <ThumbUpOutlinedIcon sx={{ mr: 2 }} />
             <Typography
@@ -54,7 +94,7 @@ export default function MovieCard() {
               variant="subtitle1"
               color="text.secondary"
             >
-              89
+              {movie.dislikeCount}
             </Typography>
             <ThumbDownOffAltOutlinedIcon />
           </Stack>
@@ -62,12 +102,12 @@ export default function MovieCard() {
             Description:
           </Typography>
           <Typography variant="subtitle2" color="text.secondary">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer
+            {movie.description}
           </Typography>
         </CardContent>
       </Box>
     </Card>
   );
-}
+};
+
+export default MovieCard;

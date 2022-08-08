@@ -14,4 +14,5 @@ export const MESSAGE_CODE = {
   [EnumMessageCode.M011]: 'Like successfully',
   [EnumMessageCode.M012]: 'Un-voted successfully',
   [EnumMessageCode.M013]: 'Dislike successfully',
+  [EnumMessageCode.M014]: 'Share movie successfully',
 };

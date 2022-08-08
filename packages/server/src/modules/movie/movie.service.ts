@@ -85,7 +85,10 @@ export class MovieService {
     if (user) {
       movie.createdBy = user;
     }
-    return this.movieService.save(movie);
+    await this.movieService.save(movie);
+    const responseSuccessDto = new ResponseSuccessDto();
+    responseSuccessDto.code = EnumMessageCode.M014;
+    return responseSuccessDto;
   }
 
   async action(actionMovieDto: ActionMovieDto, userDto: UserDto): Promise<any> {

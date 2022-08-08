@@ -162,7 +162,6 @@ export class MovieService {
       },
     });
     let user: UserEntity | null = null;
-    console.log(userDto);
     if (userDto) {
       user = await this.userService.findByEmail(userDto.email);
     }
@@ -175,6 +174,7 @@ export class MovieService {
         likeCount: movie.likeBy.length,
         dislikeCount: movie.dislikeBy.length,
         status: this.getStatus(movie, user),
+        sharedBy: movie.createdBy.email,
       };
     });
   }

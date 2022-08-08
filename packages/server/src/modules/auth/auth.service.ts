@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { UserDto } from '../user/dto/user.dto';
 import { EnumMessageCode } from '~/enums';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import { GetLoginDto } from '../user/dto/get-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,31 +26,36 @@ export class AuthService {
       const createUserDto = new CreateUserDto();
       createUserDto.email = email;
       createUserDto.password = password;
-      return this.userService.create(createUserDto);
-    }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (isMatch) {
-      return user.safeResponse();
+      const userCreated = await this.userService.create(createUserDto);
+      const newUser: UserEntity = new UserEntity();
+      newUser.email = userCreated.email;
+      return { user: newUser.safeResponse(), code: EnumMessageCode.M008 };
     } else {
-      throw new HttpException(
-        {
-          status: EnumMessageCode.M002,
-          error: MESSAGE_CODE.M002,
-        },
-        HttpStatus.NOT_FOUND
-      );
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (isMatch) {
+        return { user: user.safeResponse(), code: EnumMessageCode.M009 };
+      } else {
+        throw new HttpException(
+          {
+            code: EnumMessageCode.M002,
+            error: MESSAGE_CODE.M002,
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
     }
   }
 
-  async login(loginDto: LoginDto) {
-    const userSafe = await this.getUserFromEmailAndPassword(
+  async login(loginDto: LoginDto): Promise<GetLoginDto> {
+    const { user, code } = await this.getUserFromEmailAndPassword(
       loginDto.email,
       loginDto.password
     );
-    return {
-      access_token: await this.signToken(userSafe),
-      user: userSafe,
-    };
+    const getLoginDto = new GetLoginDto();
+    getLoginDto.email = loginDto.email;
+    getLoginDto.access_token = await this.signToken(user);
+    getLoginDto.code = code;
+    return getLoginDto;
   }
 
   async signToken(payload: any): Promise<string> {

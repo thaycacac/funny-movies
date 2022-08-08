@@ -7,6 +7,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { AuthGuard } from '../../guards/auth.guard';
+import { GetLoginDto } from '../user/dto/get-user.dto';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login';
 
@@ -15,7 +16,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('auth/login')
-  async login(@Body() loginDto: LoginDto): Promise<any> {
+  async login(@Body() loginDto: LoginDto): Promise<GetLoginDto> {
     return this.authService.login(loginDto);
   }
 

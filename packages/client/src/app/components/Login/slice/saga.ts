@@ -2,10 +2,12 @@ import { call, takeLatest, put } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 import { authActions as actions } from '.';
-// import { LocalStorageService } from '../../../../services';
 import { AuthParams, AuthResponse } from '../../../../types/Auth';
 import { apiPostLogin } from '../../../../services/api/auth';
 import { LocalStorageService } from '../../../../services';
+import toast from 'react-hot-toast';
+import { EnumMessageCode } from '../../../../enums';
+import { MESSAGE_CODE } from '../../../../constants';
 
 export function* login(
   action: PayloadAction<AuthParams, string, (error?: any) => void>
@@ -20,6 +22,7 @@ export function* login(
       LocalStorageService.OAUTH_TOKEN,
       response.access_token
     );
+    toast.success(MESSAGE_CODE[response.code] as EnumMessageCode);
     yield put(actions.loginSuccess(response));
     action.meta();
   } catch (error: any) {

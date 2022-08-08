@@ -36,9 +36,7 @@ service.interceptors.response.use(
   },
   error => {
     if (error.response?.status !== 401 && error.response?.status !== 403) {
-      toast.error(
-        MESSAGE_CODE[error.response?.data?.status as EnumMessageCode]
-      );
+      toast.error(MESSAGE_CODE[error.response?.data?.code as EnumMessageCode]);
     }
     if (error.response?.status === 500) {
       toast.error(MESSAGE_CODE[EnumMessageCode.M007]);

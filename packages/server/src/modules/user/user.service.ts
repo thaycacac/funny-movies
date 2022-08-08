@@ -6,7 +6,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { SALT_OR_ROUNDS } from '~/config';
-import { UserDto } from './dto/user.dto';
 import { EnumMessageCode } from '~/enums';
 
 @Injectable()
@@ -16,7 +15,7 @@ export class UserService {
     private readonly usersRepository: Repository<UserEntity>
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<UserDto> {
+  async create(createUserDto: CreateUserDto): Promise<any> {
     const { email, password } = createUserDto;
     const checkUser = await this.findByEmail(email);
     if (checkUser) {
@@ -32,8 +31,7 @@ export class UserService {
     const user = new UserEntity();
     user.email = email;
     user.password = hashPassword;
-    this.usersRepository.save(user);
-    return user.safeResponse();
+    return this.usersRepository.save(user);
   }
 
   async findByEmail(email: string): Promise<UserEntity | null> {

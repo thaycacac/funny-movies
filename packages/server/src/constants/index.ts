@@ -8,7 +8,7 @@ export const MESSAGE_CODE = {
   [EnumMessageCode.M005]: 'Movie does not exist',
   [EnumMessageCode.M006]: 'You need to be login to continue',
   [EnumMessageCode.M007]: 'Error! An error occurred. Please try again!',
-  [EnumMessageCode.M008]: '',
-  [EnumMessageCode.M009]: '',
+  [EnumMessageCode.M008]: 'Register successfully',
+  [EnumMessageCode.M009]: 'Login successfully',
   [EnumMessageCode.M010]: '',
 };

@@ -112,32 +112,35 @@ export class MovieService {
       userDto.email
     );
     if (user) {
-      console.log('runnn1');
-      if (actionMovieDto.type === EnumActionType.LIKE) {
-        console.log('runnn2');
-
-        movie?.likeBy?.length
-          ? (movie.likeBy = [...movie.likeBy, user])
-          : (movie.likeBy = [user]);
-        responseSuccessDto.code = EnumMessageCode.M011;
-      } else if (actionMovieDto.type === EnumActionType.REMOVE_LIKE) {
-        console.log(movie, user.id);
-        movie.likeBy = movie.likeBy?.filter(item => item.id !== user.id);
-        responseSuccessDto.code = EnumMessageCode.M012;
-      } else if (actionMovieDto.type === EnumActionType.DISLIKE) {
-        console.log('runnn4');
-
-        movie?.dislikeBy?.length
-          ? (movie.dislikeBy = [...movie.dislikeBy, user])
-          : (movie.dislikeBy = [user]);
-        responseSuccessDto.code = EnumMessageCode.M013;
-      } else if (actionMovieDto.type === EnumActionType.REMOVE_DISLIKE) {
-        console.log('runnn5');
-        movie.dislikeBy = movie.dislikeBy?.filter(item => item.id !== user.id);
-        responseSuccessDto.code = EnumMessageCode.M012;
+      switch (actionMovieDto.type) {
+        case EnumActionType.LIKE:
+          movie?.likeBy?.length
+            ? (movie.likeBy = [...movie.likeBy, user])
+            : (movie.likeBy = [user]);
+          responseSuccessDto.code = EnumMessageCode.M011;
+          break;
+        case EnumActionType.REMOVE_LIKE:
+          movie.likeBy = movie.likeBy?.filter(item => {
+            console.log(item.id, user.id);
+            return item.id !== user.id;
+          });
+          responseSuccessDto.code = EnumMessageCode.M012;
+          break;
+        case EnumActionType.DISLIKE:
+          movie?.dislikeBy?.length
+            ? (movie.dislikeBy = [...movie.dislikeBy, user])
+            : (movie.dislikeBy = [user]);
+          responseSuccessDto.code = EnumMessageCode.M013;
+          break;
+        case EnumActionType.REMOVE_DISLIKE:
+          movie.dislikeBy = movie.dislikeBy?.filter(
+            item => item.id !== user.id
+          );
+          responseSuccessDto.code = EnumMessageCode.M012;
+          break;
       }
     }
-    return await this.movieService.save(movie);
+    await this.movieService.save(movie);
 
     return responseSuccessDto;
   }

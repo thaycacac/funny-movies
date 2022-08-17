@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostController } from './movie.controllers';
+import { MovieController } from './movie.controllers';
 import { MovieEntity } from './movie.entity';
 import { MovieService } from './movie.service';
 import { AuthModule } from '../auth/auth.module';
@@ -15,6 +15,7 @@ import { UserModule } from '../user/user.module';
     UserModule,
   ],
   providers: [MovieService],
-  controllers: [PostController],
+  controllers: [MovieController],
+  exports: [MovieService],
 })
 export class MovieModule {}

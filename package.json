@@ -10,15 +10,8 @@
   "workspaces": [
     "packages/*"
   ],
-  "references": [
-    {
-      "path": "packages/domain"
-    },
-    {
-      "path": "packages/lib"
-    }
-  ],
   "scripts": {
-    "lint": "yarn workspaces run lint"
+    "dev:client": "yarn workspaces client run dev",
+    "dev:server": "yarn workspaces server run dev"
   }
 }

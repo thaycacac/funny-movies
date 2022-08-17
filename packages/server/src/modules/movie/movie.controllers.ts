@@ -13,7 +13,7 @@ import { MovieEntity } from './movie.entity';
 import { MovieService } from './movie.service';
 
 @Controller('videos')
-export class PostController {
+export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
   @Post()

@@ -47,6 +47,15 @@ export class MovieService {
       },
     });
   }
+
+  async findMovieById(id: string): Promise<MovieEntity | null> {
+    return await this.movieService.findOne({
+      where: {
+        id: id,
+      },
+    });
+  }
+
   async callApiGetVideoInfor(url: string): Promise<AxiosResponse<any>> {
     const youtubeId = this.getIdYoutubeFromUrl(url);
     const movie: MovieEntity | null = await this.findMovideByYoutubeId(
